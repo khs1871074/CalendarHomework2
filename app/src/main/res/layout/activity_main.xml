@@ -6,14 +6,96 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World!" />
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="1dp"
+            android:layout_gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/sunday"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/week_items_border"
+                android:text="일"
+                android:gravity="center"
+                ></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/week_items_border"
+                android:text="월"
+                android:gravity="center"
+                ></TextView>
+            <TextView
+                android:id="@+id/tuesday"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/week_items_border"
+                android:text="화"
+                android:gravity="center"
+                ></TextView>
+            <TextView
+                android:id="@+id/wednesday"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/week_items_border"
+                android:text="수"
+                android:gravity="center"
+                ></TextView>
+            <TextView
+                android:id="@+id/thursday"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/week_items_border"
+                android:text="목"
+                android:gravity="center"
+                ></TextView>
+            <TextView
+                android:id="@+id/friday"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/week_items_border"
+                android:text="금"
+                android:gravity="center"
+                ></TextView>
+            <TextView
+                android:id="@+id/saturday"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/week_items_border"
+                android:text="토"
+                android:gravity="center"
+                ></TextView>
+
+        </LinearLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            ></androidx.viewpager2.widget.ViewPager2>
+
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
