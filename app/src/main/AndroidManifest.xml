@@ -11,6 +11,7 @@
         android:theme="@style/Theme.CalendarHomework2">
         <activity
             android:name=".MonthActivity"
+            android:configChanges="screenSize|orientation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -51,11 +51,13 @@ public class MonthFragment extends Fragment {
         }
 
 
-
+        Calendar c = Calendar.getInstance();
         DayAdapter items = new DayAdapter();
 
-        int year = ((MonthActivity)getActivity()).FragmentGetCyear();
-        int month = ((MonthActivity)getActivity()).FragmentGetCmonth();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        ((MonthActivity) getActivity()).FragmentsetCmonth(month);
+
         int fullitem = 1;
 
         int start_day = getDays(year, month) % 7; //사용자정의 메소드 getDays()에서 총 일수를 반환받은 후
