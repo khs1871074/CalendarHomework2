@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class MonthFragment extends Fragment {
-
+public class MonthMinusFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +54,17 @@ public class MonthFragment extends Fragment {
         DayAdapter items = new DayAdapter();
 
         int year = ((MonthActivity)getActivity()).FragmentGetCyear();
-        int month = ((MonthActivity)getActivity()).FragmentGetCmonth();
+        int month = ((MonthActivity)getActivity()).FragmentGetCmonth() - 1;
+
+        if (month == 0) {
+            ((MonthActivity) getActivity()).FragmentsetCmonth(month);
+            year =- 1;
+            month = 12;
+        }
+        else {
+            ((MonthActivity) getActivity()).FragmentsetCmonth(month);
+        }
+
         int fullitem = 1;
 
         int start_day = getDays(year, month) % 7; //사용자정의 메소드 getDays()에서 총 일수를 반환받은 후
@@ -215,4 +224,3 @@ public class MonthFragment extends Fragment {
 
 
 }
-
