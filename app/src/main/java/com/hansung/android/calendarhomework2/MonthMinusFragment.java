@@ -1,16 +1,19 @@
 package com.hansung.android.calendarhomework2;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,16 +21,19 @@ import java.util.Calendar;
 
 public class MonthMinusFragment extends Fragment {
 
+    static int selectedItemPosition = -1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         Display display = ((MonthActivity)getActivity()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        int height = size.y/7;
 
         class DayAdapter extends BaseAdapter {
             ArrayList<String> items = new ArrayList<String>();
-            int height = size.y/6;
 
             @Override
             public int getCount() {
@@ -50,9 +56,11 @@ public class MonthMinusFragment extends Fragment {
 
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
-                DayTextView dayview = new DayTextView(getActivity().getApplicationContext());
+                TextView dayview = new TextView(getActivity().getApplicationContext());
                 dayview.setHeight(height);
-                dayview.setItem(items.get(i));
+                dayview.setText(items.get(i));
+                dayview.setGravity(Gravity.CENTER_HORIZONTAL);
+                dayview.setBackgroundColor(Color.WHITE);
                 return dayview;
             }
         }
@@ -168,6 +176,17 @@ public class MonthMinusFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // 선택된 항목 위치 (position)을 이 프래그먼트와 연결된 액티비티로 전달
+                if(selectedItemPosition != position) {
+                    //Resets old item to original color
+                    for(int i=0;i<42;i++) {
+                        adapterView.getChildAt(i).setBackgroundColor(Color.WHITE);
+                    }
+                    view.setBackgroundColor(Color.CYAN);
+                }
+                else if(selectedItemPosition==position){
+                    view.setBackgroundColor(Color.WHITE);
+                }
+                selectedItemPosition = position;
             }
         });
         return rootView;

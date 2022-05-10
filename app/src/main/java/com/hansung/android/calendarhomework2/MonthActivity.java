@@ -28,9 +28,6 @@ public class MonthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mc.CalendarCyear();
-        mc.CalendarCmonth();
-
         Intent gotintent = getIntent();
         if(gotintent.getIntExtra("nowmonth",0)==0) { //받아온 값이 없다면 디폴트값 0을 반환
             mc.CalendarCmonth();
@@ -47,8 +44,6 @@ public class MonthActivity extends AppCompatActivity {
         else {
             mc.setCyear(gotintent.getIntExtra("nowyear", 0));
         }
-
-
 
 
         ViewPager2 vpPager = findViewById(R.id.vpPager);

@@ -2,6 +2,7 @@ package com.hansung.android.calendarhomework2;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 
@@ -10,13 +11,16 @@ import androidx.fragment.app.Fragment;
 
 import android.util.AttributeSet;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,18 +28,25 @@ import java.util.Calendar;
 
 public class MonthFragment extends Fragment {
 
+    static int selectedItemPosition = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_month, container, false);
+
+        // id가 listview인 리스트뷰 객체를 얻어옴
+        GridView gridView = rootView.findViewById(R.id.calendarGridView);
+
         Display display = ((MonthActivity)getActivity()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        int height = size.y/7;
 
         class DayAdapter extends BaseAdapter {
             ArrayList<String> items = new ArrayList<String>();
-            int height = (size.y-200)/6;
 
             @Override
             public int getCount() {
@@ -58,19 +69,19 @@ public class MonthFragment extends Fragment {
 
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
-                DayTextView dayview = new DayTextView(getActivity().getApplicationContext());
+                TextView dayview = new TextView(getActivity().getApplicationContext());
                 dayview.setHeight(height);
-                dayview.setItem(items.get(i));
+                dayview.setText(items.get(i));
+                dayview.setGravity(Gravity.CENTER_HORIZONTAL);
+                dayview.setBackgroundColor(Color.WHITE);
                 return dayview;
             }
         }
 
-
-        Calendar c = Calendar.getInstance();
-        DayAdapter items = new DayAdapter();
-
         int year = ((MonthActivity)getActivity()).FragmentGetCyear();
         int month = ((MonthActivity)getActivity()).FragmentGetCmonth();
+
+        DayAdapter items = new DayAdapter();
 
         int fullitem = 1;
 
@@ -148,19 +159,25 @@ public class MonthFragment extends Fragment {
         }
 
 
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_month, container, false);
 
-        // id가 listview인 리스트뷰 객체를 얻어옴
-        GridView gridView = rootView.findViewById(R.id.calendarGridView);
         // 리스트뷰 객체에 Shakespear.TITLES 배열을 데이터원본으로 설정한 ArrayAdapter 객체를 연결
-
         gridView.setAdapter(items);  // 데이터 원본
         // 리스트뷰 항목이 선택되었을 때, 항목 클릭 이벤트 처리
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // 선택된 항목 위치 (position)을 이 프래그먼트와 연결된 액티비티로 전달
+                if(selectedItemPosition != position) {
+                    //Resets old item to original color
+                    for(int i=0;i<42;i++) {
+                        adapterView.getChildAt(i).setBackgroundColor(Color.WHITE);
+                    }
+                    view.setBackgroundColor(Color.CYAN);
+                }
+                else if(selectedItemPosition==position){
+                    view.setBackgroundColor(Color.WHITE);
+                }
+                selectedItemPosition = position;
             }
         });
         return rootView;

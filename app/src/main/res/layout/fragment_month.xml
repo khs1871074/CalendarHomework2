@@ -16,8 +16,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:columnWidth="100dp"
+            android:background="#90B0E0"
             android:gravity="center"
             android:numColumns="7"
             android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="1dp"
             />
 </FrameLayout>
