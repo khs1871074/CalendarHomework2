@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +23,8 @@ import java.util.Calendar;
 public class MonthMinusFragment extends Fragment {
 
     static int selectedItemPosition = -1;
-
+    static int year = 0;
+    static int month = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,8 +71,8 @@ public class MonthMinusFragment extends Fragment {
 
         DayAdapter items = new DayAdapter();
 
-        int year = ((MonthActivity)getActivity()).FragmentGetCyear();
-        int month = ((MonthActivity)getActivity()).FragmentGetCmonth() - 1;
+        year = ((MonthActivity)getActivity()).FragmentGetCyear();
+        month = ((MonthActivity)getActivity()).FragmentGetCmonth() - 1;
 
         if (month == 0) {
             ((MonthActivity) getActivity()).FragmentsetCmonth(month);
@@ -175,7 +177,6 @@ public class MonthMinusFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // 선택된 항목 위치 (position)을 이 프래그먼트와 연결된 액티비티로 전달
                 if(selectedItemPosition != position) {
                     //Resets old item to original color
                     for(int i=0;i<42;i++) {
@@ -186,6 +187,10 @@ public class MonthMinusFragment extends Fragment {
                 else if(selectedItemPosition==position){
                     view.setBackgroundColor(Color.WHITE);
                 }
+                Toast.makeText(((MonthActivity)getActivity()).getApplicationContext(),
+                        Integer.toString(year)+"."+
+                                Integer.toString(month)+"."+
+                                Integer.toString(position-start_day+1), Toast.LENGTH_SHORT).show();
                 selectedItemPosition = position;
             }
         });

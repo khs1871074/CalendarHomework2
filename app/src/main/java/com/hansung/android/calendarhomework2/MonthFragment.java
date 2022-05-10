@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +30,8 @@ import java.util.Calendar;
 public class MonthFragment extends Fragment {
 
     static int selectedItemPosition = -1;
+    static int year = 0;
+    static int month = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,8 +81,8 @@ public class MonthFragment extends Fragment {
             }
         }
 
-        int year = ((MonthActivity)getActivity()).FragmentGetCyear();
-        int month = ((MonthActivity)getActivity()).FragmentGetCmonth();
+        year = ((MonthActivity)getActivity()).FragmentGetCyear();
+        month = ((MonthActivity)getActivity()).FragmentGetCmonth();
 
         DayAdapter items = new DayAdapter();
 
@@ -177,6 +180,10 @@ public class MonthFragment extends Fragment {
                 else if(selectedItemPosition==position){
                     view.setBackgroundColor(Color.WHITE);
                 }
+                Toast.makeText(((MonthActivity)getActivity()).getApplicationContext(),
+                        Integer.toString(year)+"."+
+                        Integer.toString(month)+"."+
+                        Integer.toString(position-start_day+1), Toast.LENGTH_SHORT).show();
                 selectedItemPosition = position;
             }
         });
