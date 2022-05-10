@@ -1,8 +1,10 @@
 package com.hansung.android.calendarhomework2;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +22,15 @@ public class MonthPlusFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Display display = ((MonthActivity)getActivity()).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
         class DayAdapter extends BaseAdapter {
+
             ArrayList<String> items = new ArrayList<String>();
+            int height = (size.y-50)/6;
+
             @Override
             public int getCount() {
                 return items.size();
@@ -45,6 +54,7 @@ public class MonthPlusFragment extends Fragment {
             public View getView(int i, View view, ViewGroup viewGroup) {
                 DayTextView dayview = new DayTextView(getActivity().getApplicationContext());
                 dayview.setItem(items.get(i));
+                dayview.setHeight(height);
                 return dayview;
             }
         }

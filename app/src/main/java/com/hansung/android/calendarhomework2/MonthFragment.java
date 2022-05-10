@@ -1,13 +1,21 @@
 package com.hansung.android.calendarhomework2;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.AttributeSet;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -21,8 +29,14 @@ public class MonthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Display display = ((MonthActivity)getActivity()).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
         class DayAdapter extends BaseAdapter {
             ArrayList<String> items = new ArrayList<String>();
+            int height = (size.y-200)/6;
+
             @Override
             public int getCount() {
                 return items.size();
@@ -45,6 +59,7 @@ public class MonthFragment extends Fragment {
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
                 DayTextView dayview = new DayTextView(getActivity().getApplicationContext());
+                dayview.setHeight(height);
                 dayview.setItem(items.get(i));
                 return dayview;
             }
@@ -54,9 +69,8 @@ public class MonthFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         DayAdapter items = new DayAdapter();
 
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH) + 1;
-        ((MonthActivity) getActivity()).FragmentsetCmonth(month);
+        int year = ((MonthActivity)getActivity()).FragmentGetCyear();
+        int month = ((MonthActivity)getActivity()).FragmentGetCmonth();
 
         int fullitem = 1;
 
@@ -134,12 +148,6 @@ public class MonthFragment extends Fragment {
         }
 
 
-
-
-
-
-
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_month, container, false);
 
@@ -157,6 +165,7 @@ public class MonthFragment extends Fragment {
         });
         return rootView;
     }
+
 
 
     // 현재 달의 시작 날짜를 계산하기 위해 총 날짜를 알아내는 함수 정의
@@ -217,4 +226,6 @@ public class MonthFragment extends Fragment {
 
 
 }
+
+
 

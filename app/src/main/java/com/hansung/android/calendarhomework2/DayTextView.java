@@ -25,6 +25,10 @@ public class DayTextView extends LinearLayout {
         textView = (TextView)findViewById(R.id.setday);
     }
 
+    public void setHeight(int height){
+        textView.setHeight(height);
+    }
+
     public void setItem(String d){
         textView.setText(d);
     }
