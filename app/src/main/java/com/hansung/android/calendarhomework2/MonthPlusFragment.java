@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
+// 내용은 MonthFragment와 같으나 월 값이 증가하는 Fragment
 public class MonthPlusFragment extends Fragment {
 
     static int selectedItemPosition = -1;
@@ -73,9 +73,9 @@ public class MonthPlusFragment extends Fragment {
         DayAdapter items = new DayAdapter();
 
         year = ((MonthActivity)getActivity()).FragmentGetCyear();
-        month = ((MonthActivity)getActivity()).FragmentGetCmonth() + 1;
+        month = ((MonthActivity)getActivity()).FragmentGetCmonth() + 1; //월 값 증가
 
-        if (month == 13) {
+        if (month == 13) { // 12월에서 다음 페이지로 넘어가면 1월로 초기화 한 후 년 값을 증가
             ((MonthActivity) getActivity()).FragmentsetCmonth(month);
             year =+ 1;
             month = 1;
@@ -86,19 +86,15 @@ public class MonthPlusFragment extends Fragment {
 
         int fullitem = 1;
 
-        int start_day = getDays(year, month) % 7; //사용자정의 메소드 getDays()에서 총 일수를 반환받은 후
-        // 7로 나눈 나머지를 이용하여 해당 달의 시작 요일을 구하는 코드
+        int start_day = getDays(year, month) % 7;
 
         String cday = "";
-        //구한 start_day가 0(일요일)이 아닐 경우 start_day-1만큼 ArrayList에 공백을 추가하는 코드
         if(start_day!=0) {
             for (int i = 0; i < start_day; i++) {
                 cday = "";
                 items.addItem(cday);
             }
         }
-        //2월은 28,29일, 4,6,9,11월은 30일, 그 외에는 31일인것을 이용하여 해당 월의 날짜값들을 ArrayList에 추가하는 코드
-        //코드는 getDays()메소드와 같이 1871074김혁순이 과거 Java프로그래밍 과목에서 프로젝트 과제로 제출했던 코드를 일부 변형하여 재사용하였음
         if (month == 2) {
             if (year % 400 == 0) {
                 for (int i = 1; i <= 29; i++) {
@@ -163,24 +159,16 @@ public class MonthPlusFragment extends Fragment {
 
 
 
-
-
-
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_month, container, false);
 
-        // id가 listview인 리스트뷰 객체를 얻어옴
         GridView gridView = rootView.findViewById(R.id.calendarGridView);
-        // 리스트뷰 객체에 Shakespear.TITLES 배열을 데이터원본으로 설정한 ArrayAdapter 객체를 연결
 
-        gridView.setAdapter(items);  // 데이터 원본
-        // 리스트뷰 항목이 선택되었을 때, 항목 클릭 이벤트 처리
+        gridView.setAdapter(items);
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // 선택된 항목 위치 (position)을 이 프래그먼트와 연결된 액티비티로 전달
                 if(selectedItemPosition != position) {
-                    //Resets old item to original color
                     for(int i=0;i<42;i++) {
                         adapterView.getChildAt(i).setBackgroundColor(Color.WHITE);
                     }
@@ -200,13 +188,12 @@ public class MonthPlusFragment extends Fragment {
     }
 
 
-    // 현재 달의 시작 날짜를 계산하기 위해 총 날짜를 알아내는 함수 정의
-    //코드는 1871074김혁순이 과거 Java프로그래밍 과목에서 프로젝트 과제로 제출했던 코드를 재사용하였음
-    public static int getDays(int year, int month) { // 총 날짜수를 구하는 메소드
+
+    public static int getDays(int year, int month) {
         int total = 0;
 
         total += (year - 1) * 365;
-        total += (int)(year / 4) - (int)(year / 100) + (int)(year / 400); //윤년 계산
+        total += (int)(year / 4) - (int)(year / 100) + (int)(year / 400);
         if (year % 400 == 0) {
             if (month < 3)
                 total -= 1;
@@ -215,7 +202,7 @@ public class MonthPlusFragment extends Fragment {
                 total -= 1;
         }
 
-        switch (month) {  //그 해의 1월 1일부터 그 달의 이전 달의 마지막날까지를 구하는 코드
+        switch (month) {
             case 1:
                 break;
             case 2:
@@ -253,7 +240,7 @@ public class MonthPlusFragment extends Fragment {
                 break;
         }
 
-        return total + 1; // 그 달의 1일까지의 총 일수를 반환
+        return total + 1;
     }
 
 

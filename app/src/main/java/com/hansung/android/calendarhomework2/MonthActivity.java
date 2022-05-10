@@ -39,22 +39,25 @@ public class MonthActivity extends AppCompatActivity {
         }
 
         if(gotintent.getIntExtra("nowyear",-1)==-1) {
-            mc.CalendarCyear();
+            mc.CalendarCyear(); //디폴드값 -1이 반환되면 현재 년의 정보를 Calendar 클래스로부터 받아옴
         }
         else {
             mc.setCyear(gotintent.getIntExtra("nowyear", 0));
+            //받아온 값이 있다면 인텐트값을 적용
         }
 
 
         ViewPager2 vpPager = findViewById(R.id.vpPager);
         FragmentStateAdapter adapter = new PagerAdapter(this);
 
+        // 시작 시 앱바의 타이틀 설정
         getSupportActionBar().setTitle(Integer.toString(mc.getCyear()) + "년"
                 + Integer.toString(mc.getCmonth()) + "월");
 
-        vpPager.setAdapter(adapter);
-        vpPager.setCurrentItem(start_position,false);
+        vpPager.setAdapter(adapter); //ViewPager2에 어댑터 설정
+        vpPager.setCurrentItem(start_position,false); //시작 페이지 설정
 
+        // 페이지가 바뀌면 해당 날짜의 년, 월로 앱바의 타이틀을 변경
         vpPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -72,11 +75,13 @@ public class MonthActivity extends AppCompatActivity {
         });
     }
 
+    // 가로 회전시 액티비티 재실행을 방지하는 코드
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
 
+    // 메뉴 생성
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -84,16 +89,17 @@ public class MonthActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // 메뉴 선택시 이벤트 발생
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.month_page:
                 Toast.makeText(getApplicationContext(), "월간 페이지", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MonthActivity.class); //MonthViewActivity인텐트 선언
-                intent.putExtra("nowmonth", mc.getCmonth()); //증가한 month 값 인텐트로 전달
-                intent.putExtra("nowyear", mc.getCyear()); //해당 year 혹은 증가한 year 값 인텐트로 전달
-                startActivity(intent); //새로운 MonthViewActivity 실행
-                finish(); //이전 MonthViewActivity 종료
+                Intent intent = new Intent(getApplicationContext(), MonthActivity.class); //MonthActivity인텐트 선언
+                intent.putExtra("nowmonth", mc.getCmonth()); //month 값 인텐트로 전달
+                intent.putExtra("nowyear", mc.getCyear()); //year 값 인텐트로 전달
+                startActivity(intent); //새로운 MonthActivity 실행
+                finish(); //이전 Activity 종료
 
                 return true;
             case R.id.week_page:
@@ -106,31 +112,32 @@ public class MonthActivity extends AppCompatActivity {
 
     public int FragmentGetCyear(){
         return mc.getCyear();
-    }
+    } //프래그먼트에서 년 값을 받아가는 메소드
 
     public int FragmentGetCmonth(){
         return mc.getCmonth();
-    }
+    } //프래그먼트에서 월 값을 받아가는 메소드
 
     public void FragmentsetCyear(int setyear){
         mc.setCyear(setyear);
-    }
+    } //프래그먼트에서 년 값을 설정하는 메소드
 
     public void FragmentsetCmonth(int setmonth){
         mc.setCmonth(setmonth);
-    }
+    } //프래그먼트에서 월 값을 설정하는 메소드
 
+    // 액티비티와 프래그먼트에서 같은 년, 월 값을 공유하기 위해 생성한 객체
     public class MyCalendar {
         int cyear = 0;
         int cmonth = 0;
 
-        public int CalendarCyear(){
+        public int CalendarCyear(){ // 년 값을 현재 날짜의 년으로 설정
             Calendar cy = Calendar.getInstance();
             cyear = cy.get(Calendar.YEAR);
             return cyear;
         }
 
-        public int CalendarCmonth(){
+        public int CalendarCmonth(){ // 월 값을 현재 날짜의 월로 설정
             Calendar cm = Calendar.getInstance();
             cmonth = cm.get(Calendar.MONTH) + 1;
             return cmonth;
@@ -138,19 +145,19 @@ public class MonthActivity extends AppCompatActivity {
 
         public int getCyear(){
             return cyear;
-        }
+        } // 저장되어있는 년값 반환
 
         public int getCmonth(){
             return cmonth;
-        }
+        } // 저장되어있는 월값 반환
 
         public void setCyear(int setyear){
             cyear = setyear;
-        }
+        } // 년값 설정
 
         public void setCmonth(int setmonth){
             cmonth = setmonth;
-        }
+        } // 월값 설정
 
 
     }

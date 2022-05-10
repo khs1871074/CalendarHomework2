@@ -37,17 +37,19 @@ public class MonthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
+        // 프래그먼트에 레이아웃 인플레이트
         View rootView = inflater.inflate(R.layout.fragment_month, container, false);
 
-        // id가 listview인 리스트뷰 객체를 얻어옴
+        // id가 calendarGridview인 그리드뷰 객체를 얻어옴
         GridView gridView = rootView.findViewById(R.id.calendarGridView);
 
+        // 그리드뷰를 화면에 맞추기위해 화면의 크기를 구하는 코드
         Display display = ((MonthActivity)getActivity()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int height = size.y/7;
 
+        //GridView에 추가할 어댑터 정의
         class DayAdapter extends BaseAdapter {
             ArrayList<String> items = new ArrayList<String>();
 
@@ -80,12 +82,13 @@ public class MonthFragment extends Fragment {
                 return dayview;
             }
         }
-
+        // 액티비티로부터 년, 월 값을 받아옴
         year = ((MonthActivity)getActivity()).FragmentGetCyear();
         month = ((MonthActivity)getActivity()).FragmentGetCmonth();
 
+        // 어댑터 객체 선언
         DayAdapter items = new DayAdapter();
-
+        // 달력에 표시되는 날짜 수를 저장하는 코드
         int fullitem = 1;
 
         int start_day = getDays(year, month) % 7; //사용자정의 메소드 getDays()에서 총 일수를 반환받은 후
@@ -108,6 +111,7 @@ public class MonthFragment extends Fragment {
                     cday = Integer.toString(i);
                     items.addItem(cday);
                 }
+                // 그리드뷰에 표시되는 텍스트뷰 수를 통일하기 위해 빈 공간만큼 공백을 채워 42개의 텍스트뷰 개수를 맞춤
                 for (int i = start_day+fullitem; i <= 42; i++){
                     cday = "";
                     items.addItem(cday);
@@ -163,13 +167,15 @@ public class MonthFragment extends Fragment {
 
 
 
-        // 리스트뷰 객체에 Shakespear.TITLES 배열을 데이터원본으로 설정한 ArrayAdapter 객체를 연결
-        gridView.setAdapter(items);  // 데이터 원본
-        // 리스트뷰 항목이 선택되었을 때, 항목 클릭 이벤트 처리
+        // 리스트뷰 객체에 DayAdapter 객체를 연결
+        gridView.setAdapter(items);
+        // 그리드뷰 항목이 선택되었을 때, 항목 클릭 이벤트 처리
+        // 선택시 항목의 배경색이 CYAN으로 바뀌고, 해당 날짜를 토스트메시지로 출력
+        // 한번 더 선택시 배경색이 WHITE로 전환
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // 선택된 항목 위치 (position)을 이 프래그먼트와 연결된 액티비티로 전달
+                // 해당 날짜를 처음 선택했을 경우
                 if(selectedItemPosition != position) {
                     //Resets old item to original color
                     for(int i=0;i<42;i++) {
@@ -177,6 +183,7 @@ public class MonthFragment extends Fragment {
                     }
                     view.setBackgroundColor(Color.CYAN);
                 }
+                // 해당 날짜를 한번 더 선택했을 경우
                 else if(selectedItemPosition==position){
                     view.setBackgroundColor(Color.WHITE);
                 }
