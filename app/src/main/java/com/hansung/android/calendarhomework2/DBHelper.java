@@ -81,68 +81,68 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void updateUserBySQL(String _id, String name, String phone) {
-        try {
-            String sql = String.format (
-                    "UPDATE  %s SET %s = '%s', %s = '%s' WHERE %s = %s",
-                    UserContract.Users.TABLE_NAME,
-                    UserContract.Users.KEY_TIME_TITLE,
-                    UserContract.Users.KEY_TIME_START_HOUR,
-                    UserContract.Users.KEY_TIME_START_MINUTE,
-                    UserContract.Users.KEY_TIME_END_HOUR,
-                    UserContract.Users.KEY_TIME_END_MINUTE,
-                    UserContract.Users.KEY_TIME_LOCATION,
-                    UserContract.Users.KEY_TIME_MEMO,
-                    UserContract.Users._ID, _id) ;
-            getWritableDatabase().execSQL(sql);
-        } catch (SQLException e) {
-            Log.e(TAG,"Error in updating recodes");
-        }
-    }
+//    public void updateUserBySQL(String _id, String name, String phone) {
+//        try {
+//            String sql = String.format (
+//                    "UPDATE  %s SET %s = '%s', %s = '%s' WHERE %s = %s",
+//                    UserContract.Users.TABLE_NAME,
+//                    UserContract.Users.KEY_TIME_TITLE,
+//                    UserContract.Users.KEY_TIME_START_HOUR,
+//                    UserContract.Users.KEY_TIME_START_MINUTE,
+//                    UserContract.Users.KEY_TIME_END_HOUR,
+//                    UserContract.Users.KEY_TIME_END_MINUTE,
+//                    UserContract.Users.KEY_TIME_LOCATION,
+//                    UserContract.Users.KEY_TIME_MEMO,
+//                    UserContract.Users._ID, _id) ;
+//            getWritableDatabase().execSQL(sql);
+//        } catch (SQLException e) {
+//            Log.e(TAG,"Error in updating recodes");
+//        }
+//    }
 
-    public long insertUserByMethod(String name, String phone) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(UserContract.Users.KEY_TIME_TITLE,phone);
-        values.put(UserContract.Users.KEY_TIME_START_HOUR,phone);
-        values.put(UserContract.Users.KEY_TIME_START_MINUTE,phone);
-        values.put(UserContract.Users.KEY_TIME_END_HOUR,phone);
-        values.put(UserContract.Users.KEY_TIME_END_MINUTE,phone);
-        values.put(UserContract.Users.KEY_TIME_LOCATION,phone);
-        values.put(UserContract.Users.KEY_TIME_MEMO,phone);
-
-        return db.insert(UserContract.Users.TABLE_NAME,null,values);
-    }
-
-    public Cursor getAllUsersByMethod() {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.query(UserContract.Users.TABLE_NAME,null,null,null,null,null,null);
-    }
-
-    public long deleteUserByMethod(String _id) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        String whereClause = UserContract.Users._ID +" = ?";
-        String[] whereArgs ={_id};
-        return db.delete(UserContract.Users.TABLE_NAME, whereClause, whereArgs);
-    }
-
-    public long updateUserByMethod(String _id, String name, String phone) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(UserContract.Users.KEY_TIME_TITLE,phone);
-        values.put(UserContract.Users.KEY_TIME_START_HOUR,phone);
-        values.put(UserContract.Users.KEY_TIME_START_MINUTE,phone);
-        values.put(UserContract.Users.KEY_TIME_END_HOUR,phone);
-        values.put(UserContract.Users.KEY_TIME_END_MINUTE,phone);
-        values.put(UserContract.Users.KEY_TIME_LOCATION,phone);
-        values.put(UserContract.Users.KEY_TIME_MEMO,phone);
-
-        String whereClause = UserContract.Users._ID +" = ?";
-        String[] whereArgs ={_id};
-
-        return db.update(UserContract.Users.TABLE_NAME, values, whereClause, whereArgs);
-    }
+//    public long insertUserByMethod(String name, String phone) {
+//        SQLiteDatabase db = getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put(UserContract.Users.KEY_TIME_TITLE,phone);
+//        values.put(UserContract.Users.KEY_TIME_START_HOUR,phone);
+//        values.put(UserContract.Users.KEY_TIME_START_MINUTE,phone);
+//        values.put(UserContract.Users.KEY_TIME_END_HOUR,phone);
+//        values.put(UserContract.Users.KEY_TIME_END_MINUTE,phone);
+//        values.put(UserContract.Users.KEY_TIME_LOCATION,phone);
+//        values.put(UserContract.Users.KEY_TIME_MEMO,phone);
+//
+//        return db.insert(UserContract.Users.TABLE_NAME,null,values);
+//    }
+//
+//    public Cursor getAllUsersByMethod() {
+//        SQLiteDatabase db = getReadableDatabase();
+//        return db.query(UserContract.Users.TABLE_NAME,null,null,null,null,null,null);
+//    }
+//
+//    public long deleteUserByMethod(String _id) {
+//        SQLiteDatabase db = getWritableDatabase();
+//
+//        String whereClause = UserContract.Users._ID +" = ?";
+//        String[] whereArgs ={_id};
+//        return db.delete(UserContract.Users.TABLE_NAME, whereClause, whereArgs);
+//    }
+//
+//    public long updateUserByMethod(String _id, String name, String phone) {
+//        SQLiteDatabase db = getWritableDatabase();
+//
+//        ContentValues values = new ContentValues();
+//        values.put(UserContract.Users.KEY_TIME_TITLE,phone);
+//        values.put(UserContract.Users.KEY_TIME_START_HOUR,phone);
+//        values.put(UserContract.Users.KEY_TIME_START_MINUTE,phone);
+//        values.put(UserContract.Users.KEY_TIME_END_HOUR,phone);
+//        values.put(UserContract.Users.KEY_TIME_END_MINUTE,phone);
+//        values.put(UserContract.Users.KEY_TIME_LOCATION,phone);
+//        values.put(UserContract.Users.KEY_TIME_MEMO,phone);
+//
+//        String whereClause = UserContract.Users._ID +" = ?";
+//        String[] whereArgs ={_id};
+//
+//        return db.update(UserContract.Users.TABLE_NAME, values, whereClause, whereArgs);
+//    }
 
 }

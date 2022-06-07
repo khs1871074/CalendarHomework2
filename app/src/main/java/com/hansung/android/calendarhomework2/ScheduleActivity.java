@@ -50,9 +50,9 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
     String DBid;
     GoogleMap mgoogleMap = null;
 
-    LatLng hansung = new LatLng(37.5817891, 127.008175);
-    LatLng myeongil = new LatLng(37.55139065560204, 127.14399075648122);
-    LatLng hansung_station = new LatLng(37.58856951803093, 127.00586408259376);
+    LatLng hansung = new LatLng(37.5817891, 127.008175); //한성대학교 위치
+    LatLng myeongil = new LatLng(37.55139065560204, 127.14399075648122); // 명일역 위치
+    LatLng hansung_station = new LatLng(37.58856951803093, 127.00586408259376); // 한성대입구역 위치
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
 
         search_db();
 
-        Button save_button = (Button)findViewById(R.id.save);
+        Button save_button = (Button)findViewById(R.id.save); // 저장 버튼
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,18 +93,18 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
             }
         });
 
-        Button delete_button = (Button)findViewById(R.id.delete);
+        Button delete_button = (Button)findViewById(R.id.delete);  // 삭제 버튼
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //재확인을 위한 다이얼로그 실행
                 AlertDialog.Builder dlg = new AlertDialog.Builder(ScheduleActivity.this);
                 dlg.setTitle("일정 삭제"); //제목
                 dlg.setMessage("정말 삭제하시겠습니까?"); // 메시지
 //                버튼 클릭시 동작
                 dlg.setPositiveButton("확인",new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteRecord(DBid);
+                        deleteRecord(DBid); //확인시 데이터 삭제 진행
                         finish();
                     }
                 });
@@ -117,7 +117,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
             }
         });
 
-        Button cancel_button = (Button)findViewById(R.id.cancel);
+        Button cancel_button = (Button)findViewById(R.id.cancel); //취소 버튼
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +125,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
             }
         });
 
-        Button location_button = (Button)findViewById(R.id.location_button);
+        Button location_button = (Button)findViewById(R.id.location_button); //장소 찾기 버튼
         location_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -189,7 +189,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-
+        //onMapReady 메소드가 search_db()메소드보다 늦게 실행되므로 saved_location 변수를 정의해 저장된 장소값을 전달
         mgoogleMap = googleMap;
 
         if (saved_location==0){
@@ -212,19 +212,22 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
             // move the camera
             mgoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hansung,15));
         }
-        saved_location=3;
+        saved_location=3; //다른 날짜에 이전 주소가 표시되는걸 방지하기위해 변수 초기화
 
     }
 
 
 
-    private void deleteRecord(String t) {
-        mDbHelper.deleteUserBySQL(t);
+    private void deleteRecord(String id) {
+        //해당 id의 데이터를 삭제하는 메소드
+        mDbHelper.deleteUserBySQL(id);
+        //id값 초기화
         DBid = "";
     }
 
 
     private void insertRecord(int sth, int stm, int eth, int etm) {
+        //해당 년, 월, 일의 제목, 시간, 장소, 메모를 저장
         EditText t = (EditText)findViewById(R.id.schedule_title);
         EditText l = (EditText)findViewById(R.id.map_search);
         EditText m = (EditText)findViewById(R.id.memo);
@@ -238,6 +241,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     public void search_db() {
+        //액티비티가 실행될 때 db에서 해당 년, 월, 일의 데이터를 찾아보고, 데이터가 있으면 각각 표시
         Cursor cursor = mDbHelper.getAllUsersBySQL();
 
         while (cursor.moveToNext()){
@@ -261,6 +265,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     public void start_location(String location){
+        //onMapReady()메소드가 search_db()메소드보다 늦게 실행되므로 위치정보를 saved_location 변수에 개별적으로 저장
         if (location.equals("한성대학교")){
             saved_location=0;
         }

@@ -26,7 +26,7 @@ public class MonthActivity extends AppCompatActivity {
 
     MyCalendar mc = new MyCalendar();
     public static int start_position = Integer.MAX_VALUE / 2;
-    public static int item_select = 0;
+    public static int item_select = 0; //MonthFragment의 day값을 저장할 변수
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +61,11 @@ public class MonthActivity extends AppCompatActivity {
                             .setAction("Action", null).show();
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class); //MonthActivity인텐트 선언
+                    Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class);
                     intent.putExtra("nowmonth", mc.getCmonth()); //month 값 인텐트로 전달
                     intent.putExtra("nowyear", mc.getCyear()); //year 값 인텐트로 전달
-                    intent.putExtra("nowday", item_select);
-                    startActivity(intent); //새로운 MonthActivity 실행
+                    intent.putExtra("nowday", item_select); //day 값 인텐트로 전달
+                    startActivity(intent); //ScheduleActivity 실행
                 }
             }
         });
@@ -152,7 +152,7 @@ public class MonthActivity extends AppCompatActivity {
         mc.setCmonth(setmonth);
     } //프래그먼트에서 월 값을 설정하는 메소드
 
-    public void FragmentsetItem(int item) { item_select = item; }
+    public void FragmentsetItem(int item) { item_select = item; } //프래그먼트에서 일 값을 설정하는 메소드
 
     // 액티비티와 프래그먼트에서 같은 년, 월 값을 공유하기 위해 생성한 객체
     public class MyCalendar {

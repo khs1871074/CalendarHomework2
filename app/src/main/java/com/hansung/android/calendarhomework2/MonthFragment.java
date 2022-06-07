@@ -183,6 +183,7 @@ public class MonthFragment extends Fragment {
                     }
                     view.setBackgroundColor(Color.CYAN);
                     if(position-start_day+1>0) {
+                        //MonthActivity에 선택된 날짜정보 전달
                         ((MonthActivity) getActivity()).FragmentsetItem(position - start_day + 1);
                     }
                     else{
