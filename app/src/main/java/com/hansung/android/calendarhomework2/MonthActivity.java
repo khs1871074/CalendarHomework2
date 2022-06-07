@@ -14,7 +14,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -22,6 +26,7 @@ public class MonthActivity extends AppCompatActivity {
 
     MyCalendar mc = new MyCalendar();
     public static int start_position = Integer.MAX_VALUE / 2;
+    public static int item_select = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,26 @@ public class MonthActivity extends AppCompatActivity {
             mc.setCyear(gotintent.getIntExtra("nowyear", 0));
             //받아온 값이 있다면 인텐트값을 적용
         }
+
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(item_select==0){
+                    Snackbar.make(view, "날짜를 선택해주세요", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class); //MonthActivity인텐트 선언
+                    intent.putExtra("nowmonth", mc.getCmonth()); //month 값 인텐트로 전달
+                    intent.putExtra("nowyear", mc.getCyear()); //year 값 인텐트로 전달
+                    intent.putExtra("nowday", item_select);
+                    startActivity(intent); //새로운 MonthActivity 실행
+                }
+            }
+        });
+
 
 
         ViewPager2 vpPager = findViewById(R.id.vpPager);
@@ -89,6 +114,7 @@ public class MonthActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     // 메뉴 선택시 이벤트 발생
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -125,6 +151,8 @@ public class MonthActivity extends AppCompatActivity {
     public void FragmentsetCmonth(int setmonth){
         mc.setCmonth(setmonth);
     } //프래그먼트에서 월 값을 설정하는 메소드
+
+    public void FragmentsetItem(int item) { item_select = item; }
 
     // 액티비티와 프래그먼트에서 같은 년, 월 값을 공유하기 위해 생성한 객체
     public class MyCalendar {

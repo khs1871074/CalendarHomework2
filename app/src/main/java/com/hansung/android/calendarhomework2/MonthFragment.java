@@ -182,10 +182,17 @@ public class MonthFragment extends Fragment {
                         adapterView.getChildAt(i).setBackgroundColor(Color.WHITE);
                     }
                     view.setBackgroundColor(Color.CYAN);
+                    if(position-start_day+1>0) {
+                        ((MonthActivity) getActivity()).FragmentsetItem(position - start_day + 1);
+                    }
+                    else{
+                        ((MonthActivity)getActivity()).FragmentsetItem(0);
+                    }
                 }
                 // 해당 날짜를 한번 더 선택했을 경우
                 else if(selectedItemPosition==position){
                     view.setBackgroundColor(Color.WHITE);
+                    ((MonthActivity)getActivity()).FragmentsetItem(0);
                 }
                 Toast.makeText(((MonthActivity)getActivity()).getApplicationContext(),
                         Integer.toString(year)+"."+

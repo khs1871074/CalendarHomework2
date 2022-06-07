@@ -175,9 +175,11 @@ public class MonthMinusFragment extends Fragment {
                         adapterView.getChildAt(i).setBackgroundColor(Color.WHITE);
                     }
                     view.setBackgroundColor(Color.CYAN);
+                    ((MonthActivity)getActivity()).FragmentsetItem(position-start_day+1);
                 }
                 else if(selectedItemPosition==position){
                     view.setBackgroundColor(Color.WHITE);
+                    ((MonthActivity)getActivity()).FragmentsetItem(0);
                 }
                 Toast.makeText(((MonthActivity)getActivity()).getApplicationContext(),
                         Integer.toString(year)+"."+
